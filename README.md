@@ -8,6 +8,6 @@ This was a task given by NetixAI company, it was fun doing it. There are more to
 - I have solve the problem using two container but that is only a workaround and its not smooth.
 - The RestAPI feature is simple, i can do that but right now i dont have much time. I already spent so much time on solving this drag and drop.
 
-##Link to the Project
+## Link to the Project
 https://netixai-bysrk.netlify.app/
   
