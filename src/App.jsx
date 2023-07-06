@@ -3,10 +3,14 @@ import data from './assets/data.json'
 import Card from './components/Card'
 import { useCallback, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import Modal from './components/Modal';
 
 function App() {
   const [cardArray1,setCardArray1] = useState(data.slice(0,3));
   const [cardArray2,setCardArray2] = useState(data.slice(3,5));
+  const [showModal,setShowModal] = useState(false);
+  const [modalTitle,setModalTitle] = useState('');
+  const [modalPosition,setModalPosition] = useState(0);
 
   const onDragEnd = (result) => {
     const {destination,source} = result;
@@ -57,6 +61,13 @@ function App() {
     }
   };
 
+  const handleClickOnCard = (title,position) => {
+    setModalPosition(position);
+    setModalTitle(title);
+    console.log(title,position);
+    setShowModal(true);
+  }
+
   return (
   <div>
     <h1 className='heading'>NetixAI task - by SourabhSRK</h1>
@@ -75,6 +86,7 @@ function App() {
               index={i} 
               title={d.title} 
               position={d.position}
+              handleClickOnCard={handleClickOnCard}
               />
             )
           })}
@@ -97,6 +109,7 @@ function App() {
               index={i} 
               title={d.title} 
               position={d.position}
+              handleClickOnCard={handleClickOnCard}
               />
             )
           })}
@@ -105,6 +118,9 @@ function App() {
         )} 
       </Droppable>
     </DragDropContext>
+
+    {/* Modal Code */}
+    {showModal && <Modal title={modalTitle} position={modalPosition} setShowModal={setShowModal}/>}
   </div>
         
   )

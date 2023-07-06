@@ -8,7 +8,7 @@ import loading from '../assets/loading.gif';
 import { Draggable } from 'react-beautiful-dnd';
 
 
-const card = ({title,position,index}) => {
+const card = ({title,position,index,handleClickOnCard}) => {
   const images = [cat1,cat2,cat3,cat4,cat5];
   const [isload,setIsload] = useState(true);
   useEffect(()=>{
@@ -31,9 +31,10 @@ const card = ({title,position,index}) => {
       ref={provided.innerRef}
       {...provided.draggableProps}
       {...provided.dragHandleProps}
+      onClick={()=>{handleClickOnCard(title,position)}}
       >
         <h2>{''+position+'-'+title}</h2>
-        <img src={isload?loading:images[position]} alt='cat' height={190} width={320}/>
+        <img src={isload?loading:images[position]} alt='cat' height={190} width={320} />
       </div>
     )}
     
