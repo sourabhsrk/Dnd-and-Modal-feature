@@ -19,6 +19,7 @@ const Modal = ({title,position,setShowModal}) => {
 
   return (
     <div className='modalWrapper'>
+      <h3 className='modalInstruction'>Press Escape to close the modal</h3>
       <div className='modal'>
         <h2>{''+position+'-'+title}</h2>
         <img src={images[position]} alt='cat' height={250} width={400} />

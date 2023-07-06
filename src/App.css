@@ -51,3 +51,10 @@
   flex-direction: column;
   align-items: center;
 }
+
+.modalInstruction{
+  position: absolute;
+  color: black;
+  bottom: 5px;
+  right: 40px;
+}
