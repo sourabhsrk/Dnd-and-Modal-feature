@@ -32,8 +32,8 @@ const card = ({title,position,index}) => {
       {...provided.draggableProps}
       {...provided.dragHandleProps}
       >
-        <h2>{title}</h2>
-        <img src={isload?loading:images[position]} alt='cat' height={220} width={350}/>
+        <h2>{''+position+'-'+title}</h2>
+        <img src={isload?loading:images[position]} alt='cat' height={190} width={320}/>
       </div>
     )}
     

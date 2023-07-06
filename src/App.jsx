@@ -5,37 +5,92 @@ import { useCallback, useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 
 function App() {
-  const [cardArray,setCardArray] = useState(data);
-  const onDragEnd = useCallback((result) => {
+  const [cardArray1,setCardArray1] = useState(data.slice(0,3));
+  const [cardArray2,setCardArray2] = useState(data.slice(3,5));
+
+  const onDragEnd = (result) => {
     const {destination,source} = result;
 
     if(!destination) return;
-    if(destination.index===source.index) return;
+    if(source.droppableId==='container1' && source.droppableId === destination.droppableId){
+      const modifiedCardArray = [...cardArray1];
+      const [draggedObjCard] = modifiedCardArray.splice(source.index,1);
+      modifiedCardArray.splice(destination.index,0,draggedObjCard);
+      setCardArray1(modifiedCardArray);
+    }
+    else if(source.droppableId==='container2' && source.droppableId === destination.droppableId){
+      const modifiedCardArray = [...cardArray2];
+      const [draggedObjCard] = modifiedCardArray.splice(source.index,1);
+      modifiedCardArray.splice(destination.index,0,draggedObjCard);
+      setCardArray2(modifiedCardArray);
+    }
+    else{
+      if(source.droppableId==='container1'){
+        const sourceObjCard = cardArray1[source.index];
+        const destinationObjCard = cardArray2[destination.index];
 
-    const modifiedCardArray = [...cardArray];
-    const draggedObjCard = cardArray[source.index];
-    console.log(draggedObjCard);
-    modifiedCardArray.splice(source.index,1);
-    console.log('before',modifiedCardArray);
-    modifiedCardArray.splice(destination.index,0,draggedObjCard);
-    console.log('after',modifiedCardArray);
-    setCardArray(modifiedCardArray);
-  }, []);
+        const modarray1 = [...cardArray1];
+        modarray1.splice(source.index,1);
+        const modarray2 = [...cardArray2];
+        modarray2.splice(destination.index,1);
+        modarray1.splice(source.index,0,destinationObjCard);
+        modarray2.splice(destination.index,0,sourceObjCard);
+
+        setCardArray1(modarray1);
+        setCardArray2(modarray2);
+      }
+      else if(source.droppableId==='container2'){
+        const sourceObjCard = cardArray2[source.index];
+        const destinationObjCard = cardArray1[destination.index];
+
+        const modarray1 = [...cardArray1];
+        const modarray2 = [...cardArray2];
+        modarray2.splice(source.index,1);
+        modarray1.splice(destination.index,1);
+
+        modarray2.splice(source.index,0,destinationObjCard);
+        modarray1.splice(destination.index,0,sourceObjCard);
+
+        setCardArray1(modarray1);
+        setCardArray2(modarray2);
+      }
+    }
+  };
 
   return (
   <div>
     <h1 className='heading'>NetixAI task - by SourabhSRK</h1>
-    <DragDropContext 
-      onDragEnd={onDragEnd}
-    >
-      <Droppable droppableId='container'>
+    <DragDropContext onDragEnd={onDragEnd}>
+      <Droppable droppableId='container1' direction='horizontal'>
         {(provided)=>(
           <div 
           className='card-container'
           ref={provided.innerRef}
           {...provided.droppableProps}
           >
-          {cardArray.map((d,i)=>{
+          {cardArray1.map((d,i)=>{
+            return (
+              <Card
+              key={d.position}
+              index={i} 
+              title={d.title} 
+              position={d.position}
+              />
+            )
+          })}
+          {provided.placeholder}
+          </div>
+        )} 
+      </Droppable>
+
+      <Droppable droppableId='container2' direction='horizontal'>
+        {(provided)=>(
+          <div 
+          className='card-container'
+          ref={provided.innerRef}
+          {...provided.droppableProps}
+          >
+          {cardArray2.map((d,i)=>{
             return (
               <Card
               key={d.position}
