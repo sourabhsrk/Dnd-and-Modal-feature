@@ -1,7 +1,7 @@
 import './App.css'
 import data from './assets/data.json'
 import Card from './components/Card'
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { DragDropContext, Droppable } from 'react-beautiful-dnd';
 import Modal from './components/Modal';
 
@@ -13,9 +13,11 @@ function App() {
   const [modalPosition,setModalPosition] = useState(0);
 
   const onDragEnd = (result) => {
+    console.log(result);
     const {destination,source} = result;
 
     if(!destination) return;
+    if(source.droppableId === destination.droppableId && source.index === destination.index) return;
     if(source.droppableId==='container1' && source.droppableId === destination.droppableId){
       const modifiedCardArray = [...cardArray1];
       const [draggedObjCard] = modifiedCardArray.splice(source.index,1);
@@ -29,7 +31,9 @@ function App() {
       setCardArray2(modifiedCardArray);
     }
     else{
-      if(source.droppableId==='container1'){
+    
+      if(source.droppableId==='container1' && destination.index <= cardArray2.length-1){
+        console.log('came');
         const sourceObjCard = cardArray1[source.index];
         const destinationObjCard = cardArray2[destination.index];
 
@@ -43,7 +47,7 @@ function App() {
         setCardArray1(modarray1);
         setCardArray2(modarray2);
       }
-      else if(source.droppableId==='container2'){
+      else if(source.droppableId==='container2' && destination.index <= cardArray1.length-1){
         const sourceObjCard = cardArray2[source.index];
         const destinationObjCard = cardArray1[destination.index];
 
